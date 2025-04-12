@@ -7,11 +7,16 @@ app.use(bodyParser.json());
 const STREAM_URL = "http://radio.mitreiter.de:8000/radio.mp3";
 
 app.post("/alexa", (req, res) => {
-  const reqType = req.body.request.type;
+  console.log("Alexa request received");
+  const requestType = req.body?.request?.type;
+  const intentName = req.body?.request?.intent?.name;
+
+  console.log("Request type:", requestType);
+  console.log("Intent:", intentName);
 
   if (
-    reqType === "LaunchRequest" ||
-    (reqType === "IntentRequest" && req.body.request.intent.name === "PlayStreamIntent")
+    requestType === "LaunchRequest" ||
+    (requestType === "IntentRequest" && intentName === "PlayStreamIntent")
   ) {
     const response = {
       version: "1.0",
@@ -33,23 +38,24 @@ app.post("/alexa", (req, res) => {
         ]
       }
     };
-    res.status(200).json(response);
-  } else {
-    res.status(200).json({
-      version: "1.0",
-      response: {
-        outputSpeech: {
-          type: "PlainText",
-          text: "Dieser Skill spielt dein KI-Radio ab."
-        },
-        shouldEndSession: true
-      }
-    });
+    console.log("Sending stream response");
+    return res.status(200).json(response);
   }
+
+  res.status(200).json({
+    version: "1.0",
+    response: {
+      outputSpeech: {
+        type: "PlainText",
+        text: "Dieser Skill spielt dein KI-Radio ab."
+      },
+      shouldEndSession: true
+    }
+  });
 });
 
 app.get("/", (req, res) => {
-  res.send("mani.artificial Alexa stream endpoint is live.");
+  res.send("mani.artificial Alexa endpoint is live.");
 });
 
 const port = process.env.PORT || 3000;
