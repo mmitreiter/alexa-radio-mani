@@ -8,8 +8,12 @@ const STREAM_URL = "http://radio.mitreiter.de:8000/radio.mp3";
 
 app.post("/alexa", (req, res) => {
   console.log("Alexa request received");
-  const requestType = req.body?.request?.type;
-  const intentName = req.body?.request?.intent?.name;
+
+  const requestType = req.body && req.body.request && req.body.request.type;
+  const intentName = req.body &&
+    req.body.request &&
+    req.body.request.intent &&
+    req.body.request.intent.name;
 
   console.log("Request type:", requestType);
   console.log("Intent:", intentName);
