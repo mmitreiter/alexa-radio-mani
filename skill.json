@@ -1,0 +1,27 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "de-DE": {
+          "summary": "Spiele mani.artificial – dein KI-Radio.",
+          "examplePhrases": [
+            "Alexa, spiele mein KI Radio",
+            "Alexa, öffne mein KI Radio"
+          ],
+          "name": "mein KI Radio",
+          "description": "Spiele mani.artificial – das vollautomatisierte KI-Radio mit 100% KI-generierter Musik von mani."
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sag einfach: 'Alexa, spiele mein KI Radio'",
+      "category": "MUSIC",
+      "distributionCountries": [
+        "DE"
+      ]
+    },
+    "apis": {
+      "audioPlayer": {}
+    },
+    "manifestVersion": "1.0"
+  }
+}

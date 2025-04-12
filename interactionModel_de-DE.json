@@ -1,0 +1,32 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "mein k i radio",
+      "intents": [
+        {
+          "name": "PlayStreamIntent",
+          "samples": [
+            "spiele mein Radio",
+            "spiele mein KI Radio",
+            "öffne mein KI Radio",
+            "starte mein KI Radio",
+            "mein KI Radio starten"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}
