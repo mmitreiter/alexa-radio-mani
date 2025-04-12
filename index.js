@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(bodyParser.json());
 
-const STREAM_URL = "http://radio.mitreiter.de:8000/radio.mp3";
+const STREAM_URL = "https://radio.mitreiter.de/listen/mani.artificial/radio.mp3";
 
 app.post("/alexa", (req, res) => {
   console.log("Alexa request received");
