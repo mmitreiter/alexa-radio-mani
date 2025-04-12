@@ -5,15 +5,15 @@
         "de-DE": {
           "summary": "Spiele mani.artificial – dein KI-Radio.",
           "examplePhrases": [
-            "Alexa, spiele mein KI Radio",
-            "Alexa, öffne mein KI Radio"
+            "Alexa, spiele manis Radio",
+            "Alexa, öffne manis Radio"
           ],
-          "name": "mein KI Radio",
+          "name": "manis Radio",
           "description": "Spiele mani.artificial – das vollautomatisierte KI-Radio mit 100% KI-generierter Musik von mani."
         }
       },
       "isAvailableWorldwide": true,
-      "testingInstructions": "Sag einfach: 'Alexa, spiele mein KI Radio'",
+      "testingInstructions": "Sag einfach: 'Alexa, spiele manis Radio'",
       "category": "MUSIC",
       "distributionCountries": [
         "DE"
