@@ -1,21 +1,37 @@
 {
   "type": "APL",
-  "version": "1.4",
-  "import": [],
+  "version": "1.7",
   "mainTemplate": {
     "parameters": ["audioPlayerTemplateData"],
     "items": [
       {
-        "type": "AudioPlayer",
-        "audioTrack": "foreground",
-        "source": "${audioPlayerTemplateData.properties.audioSources[0]}",
-        "controls": [],
-        "art": {
-          "source": "${audioPlayerTemplateData.properties.coverImageSource}"
-        },
-        "headerTitle": "${audioPlayerTemplateData.properties.headerTitle}",
-        "headerSubtitle": "${audioPlayerTemplateData.properties.primaryText}",
-        "headerAttributionImage": "${audioPlayerTemplateData.properties.logoUrl}"
+        "type": "Container",
+        "direction": "column",
+        "width": "100vw",
+        "height": "100vh",
+        "items": [
+          {
+            "type": "Image",
+            "source": "${audioPlayerTemplateData.properties.coverImageSource}",
+            "width": "100vw",
+            "height": "70vh",
+            "scale": "best-fill"
+          },
+          {
+            "type": "Text",
+            "text": "${audioPlayerTemplateData.properties.primaryText}",
+            "fontSize": "40dp",
+            "color": "white",
+            "textAlign": "center"
+          },
+          {
+            "type": "Text",
+            "text": "${audioPlayerTemplateData.properties.secondaryText}",
+            "fontSize": "24dp",
+            "color": "#cccccc",
+            "textAlign": "center"
+          }
+        ]
       }
     ]
   }

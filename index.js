@@ -22,7 +22,7 @@ async function getNowPlaying() {
         : "Dein KI-Radio mit brandneuer Musik.",
       cover:
         data.now_playing.song.art ||
-        "https://radio.mitreiter.de/media/default-cover.jpg"
+        "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-300x90.png"
     };
   } catch (err) {
     console.error("Fehler beim Abrufen der Songdaten:", err);
@@ -31,7 +31,7 @@ async function getNowPlaying() {
       title: "mani.artificial",
       artist: "Digitales Radio Manfred",
       description: "Dein KI-Radio",
-      cover: "https://radio.mitreiter.de/media/default-cover.jpg"
+      cover: "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-300x90.png"
     };
   }
 }
