@@ -18,33 +18,57 @@ app.post("/alexa", (req, res) => {
   console.log("Request type:", requestType);
   console.log("Intent:", intentName);
 
-  if (
-    requestType === "LaunchRequest" ||
-    (requestType === "IntentRequest" && intentName === "PlayStreamIntent")
-  ) {
-    const response = {
-      version: "1.0",
-      sessionAttributes: {},
-      response: {
-        shouldEndSession: true,
-        directives: [
-          {
-            type: "AudioPlayer.Play",
-            playBehavior: "REPLACE_ALL",
-            audioItem: {
-              stream: {
-                token: "mani-radio",
-                url: STREAM_URL,
-                offsetInMilliseconds: 0
+if (
+  requestType === "LaunchRequest" ||
+  (requestType === "IntentRequest" && intentName === "PlayStreamIntent")
+) {
+  const nowPlaying = await getNowPlaying();
+
+  const response = {
+    version: "1.0",
+    sessionAttributes: {},
+    response: {
+      shouldEndSession: true,
+      directives: [
+        {
+          type: "Alexa.Presentation.APL.RenderDocument",
+          token: "now-playing-view",
+          document: require("./apl-template.json"), // alternativ direkt im Code
+          datasources: {
+            audioPlayerTemplateData: {
+              type: "object",
+              properties: {
+                audioControlType: "none",
+                audioSources: [nowPlaying.streamUrl],
+                coverImageSource: nowPlaying.cover,
+                headerTitle: nowPlaying.artist,
+                logoUrl: nowPlaying.cover,
+                primaryText: nowPlaying.title,
+                secondaryText: nowPlaying.description,
+                sliderType: "determinate"
               }
             }
           }
-        ]
-      }
-    };
-    console.log("Sending stream response");
-    return res.status(200).json(response);
-  }
+        },
+        {
+          type: "AudioPlayer.Play",
+          playBehavior: "REPLACE_ALL",
+          audioItem: {
+            stream: {
+              token: "mani-radio",
+              url: nowPlaying.streamUrl,
+              offsetInMilliseconds: 0
+            }
+          }
+        }
+      ]
+    }
+  };
+
+  console.log("Sende dynamisches APL + Stream");
+  return res.status(200).json(response);
+}
+
 
   res.status(200).json({
     version: "1.0",
