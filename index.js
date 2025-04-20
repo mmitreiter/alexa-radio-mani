@@ -17,7 +17,7 @@ async function getNowPlaying() {
 
     const title = data?.now_playing?.song?.title || "mani.artificial";
     const artist = data?.now_playing?.song?.artist || "Digitales Radio Manfred";
-    const cover = data?.now_playing?.song?.art || "https://radio.mitreiter.de/media/default-cover.jpg";
+    const cover = data?.now_playing?.song?.art || "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-300x90.png";
     const description = data?.now_playing?.song?.title
       ? `Gerade läuft: ${artist} – ${title}`
       : "Dein KI-Radio mit brandneuer Musik.";
