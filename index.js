@@ -48,6 +48,10 @@ app.post("/alexa", async (req, res) => {
   console.log("Request type:", requestType);
   console.log("Intent:", intentName);
 
+  console.log("FULL REQUEST BODY:", JSON.stringify(req.body, null, 2));
+
+  
+  
 if (
   requestType === "LaunchRequest" ||
   (requestType === "IntentRequest" && intentName === "PlayStreamIntent")
@@ -96,6 +100,11 @@ if (
   };
 
   console.log("Sende dynamisches APL + Stream");
+  console.log(">>> Sending APL Template:");
+  console.log(JSON.stringify(require("./apl-template.json"), null, 2));
+  console.log(">>> Datasources:");
+  console.log(JSON.stringify(response.response.directives[0].datasources, null, 2));
+  console.log("NowPlaying data:", nowPlaying);
   return res.status(200).json(response);
 }
 
