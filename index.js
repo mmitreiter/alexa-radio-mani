@@ -125,6 +125,11 @@ app.get("/", (req, res) => {
   res.send("mani.artificial Alexa endpoint is live.");
 });
 
+app.get("/alexa", (req, res) => {
+  res.send("Alexa endpoint is reachable (GET).");
+});
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log("Server listening on port", port);
