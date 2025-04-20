@@ -13,17 +13,23 @@ async function getNowPlaying() {
     const res = await fetch("https://radio.mitreiter.de/api/nowplaying");
     const data = await res.json();
 
+    console.log("API-Daten empfangen:", JSON.stringify(data, null, 2)); // Debug
+
+    const title = data?.now_playing?.song?.title || "mani.artificial";
+    const artist = data?.now_playing?.song?.artist || "Digitales Radio Manfred";
+    const cover = data?.now_playing?.song?.art || "https://radio.mitreiter.de/media/default-cover.jpg";
+    const description = data?.now_playing?.song?.title
+      ? `Gerade läuft: ${artist} – ${title}`
+      : "Dein KI-Radio mit brandneuer Musik.";
+
     return {
-      streamUrl: "https://radio.mitreiter.de/listen/mani.artificial/radio.mp3",
-      title: data.now_playing.song.title || "mani.artificial",
-      artist: data.now_playing.song.artist || "Digitales Radio Manfred",
-      description: data.now_playing.song.title
-        ? `Gerade läuft: ${data.now_playing.song.artist} – ${data.now_playing.song.title}`
-        : "Dein KI-Radio mit brandneuer Musik.",
-      cover:
-        data.now_playing.song.art ||
-        "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-300x90.png"
+      streamUrl: STREAM_URL,
+      title,
+      artist,
+      description,
+      cover
     };
+
   } catch (err) {
     console.error("Fehler beim Abrufen der Songdaten:", err);
     return {
@@ -35,6 +41,7 @@ async function getNowPlaying() {
     };
   }
 }
+
 
 app.post("/alexa", async (req, res) => {
   console.log("Alexa request received");
