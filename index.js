@@ -36,7 +36,7 @@ async function getNowPlaying() {
   }
 }
 
-app.post("/alexa", (req, res) => {
+app.post("/alexa", async (req, res) => {
   console.log("Alexa request received");
 
   const requestType = req.body && req.body.request && req.body.request.type;
