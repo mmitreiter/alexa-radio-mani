@@ -1,0 +1,22 @@
+{
+  "type": "APL",
+  "version": "1.4",
+  "import": [],
+  "mainTemplate": {
+    "parameters": ["audioPlayerTemplateData"],
+    "items": [
+      {
+        "type": "AudioPlayer",
+        "audioTrack": "foreground",
+        "source": "${audioPlayerTemplateData.properties.audioSources[0]}",
+        "controls": [],
+        "art": {
+          "source": "${audioPlayerTemplateData.properties.coverImageSource}"
+        },
+        "headerTitle": "${audioPlayerTemplateData.properties.headerTitle}",
+        "headerSubtitle": "${audioPlayerTemplateData.properties.primaryText}",
+        "headerAttributionImage": "${audioPlayerTemplateData.properties.logoUrl}"
+      }
+    ]
+  }
+}

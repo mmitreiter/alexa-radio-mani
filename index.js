@@ -6,6 +6,36 @@ app.use(bodyParser.json());
 
 const STREAM_URL = "https://radio.mitreiter.de/listen/mani.artificial/radio.mp3";
 
+const fetch = require("node-fetch");
+
+async function getNowPlaying() {
+  try {
+    const res = await fetch("https://radio.mitreiter.de/api/nowplaying");
+    const data = await res.json();
+
+    return {
+      streamUrl: "https://radio.mitreiter.de/listen/mani.artificial/radio.mp3",
+      title: data.now_playing.song.title || "mani.artificial",
+      artist: data.now_playing.song.artist || "Digitales Radio Manfred",
+      description: data.now_playing.song.title
+        ? `Gerade läuft: ${data.now_playing.song.artist} – ${data.now_playing.song.title}`
+        : "Dein KI-Radio mit brandneuer Musik.",
+      cover:
+        data.now_playing.song.art ||
+        "https://radio.mitreiter.de/media/default-cover.jpg"
+    };
+  } catch (err) {
+    console.error("Fehler beim Abrufen der Songdaten:", err);
+    return {
+      streamUrl: STREAM_URL,
+      title: "mani.artificial",
+      artist: "Digitales Radio Manfred",
+      description: "Dein KI-Radio",
+      cover: "https://radio.mitreiter.de/media/default-cover.jpg"
+    };
+  }
+}
+
 app.post("/alexa", (req, res) => {
   console.log("Alexa request received");
 
