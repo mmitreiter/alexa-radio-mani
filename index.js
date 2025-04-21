@@ -16,8 +16,8 @@ async function getNowPlaying() {
     console.log("API-Daten empfangen:", JSON.stringify(data, null, 2)); // Debug
 
     const title = data?.now_playing?.song?.title || "mani.artificial";
-    const artist = data?.now_playing?.song?.artist || "Digitales Radio Manfred";
-    const cover = data?.now_playing?.song?.art || "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-300x90.png";
+    const artist = "Digitales Radio Manfred";
+    const cover = data?.now_playing?.song?.art || "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-logo-1920x1080-_2.png";
     const description = data?.now_playing?.song?.title
       ? `Gerade läuft: ${artist} – ${title}`
       : "Dein KI-Radio mit brandneuer Musik.";
@@ -37,7 +37,7 @@ async function getNowPlaying() {
       title: "mani.artificial",
       artist: "Digitales Radio Manfred",
       description: "Dein KI-Radio",
-      cover: "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-300x90.png"
+      cover: "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-logo-1920x1080-_2.png"
     };
   }
 }
