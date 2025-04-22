@@ -106,12 +106,6 @@ if (
     }
   };
 
-  console.log("Sende dynamisches APL + Stream");
-  console.log(">>> Sending APL Template:");
-  console.log(JSON.stringify(require("./apl-template.json"), null, 2));
-  console.log(">>> Datasources:");
-  console.log(JSON.stringify(response.response.directives[0].datasources, null, 2));
-  console.log("NowPlaying data:", nowPlaying);
   return res.status(200).json(response);
 }
 
@@ -121,7 +115,7 @@ if (
     response: {
       outputSpeech: {
         type: "PlainText",
-        text: "Dieser Skill spielt dein KI-Radio ab."
+        text: "mani.artificial."
       },
       shouldEndSession: true
     }
