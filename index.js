@@ -15,12 +15,10 @@ async function getNowPlaying() {
 
     console.log("API-Daten empfangen:", JSON.stringify(data, null, 2)); // Debug
 
-    const title = data?.now_playing?.song?.title || "mani.artificial";
+    const title = "mani.artificial";
     const artist = "Digitales Radio Manfred";
-    const cover = data?.now_playing?.song?.art || "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-logo-1920x1080-_2.png";
-    const description = data?.now_playing?.song?.title
-      ? `Gerade läuft: ${artist} – ${title}`
-      : "Dein KI-Radio mit brandneuer Musik.";
+    const cover = "https://mitreiter.de/wp-content/uploads/2025/04/mani-artificial-logo-1920x1080-_2.png";
+    const description = "Dein KI-Radio mit brandneuer Musik.";
 
     return {
       streamUrl: STREAM_URL,
