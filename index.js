@@ -1,19 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const fetch = require("node-fetch");
 
 const app = express();
 app.use(bodyParser.json());
 
 const STREAM_URL = "https://radio.mitreiter.de/listen/mani.artificial/radio.mp3";
 
-const fetch = require("node-fetch");
-
 async function getNowPlaying() {
   try {
     const res = await fetch("https://radio.mitreiter.de/api/nowplaying");
     const data = await res.json();
 
-    console.log("API-Daten empfangen:", JSON.stringify(data, null, 2)); // Debug
+    console.log("API-Daten empfangen:", JSON.stringify(data, null, 2));
 
     const title = "mani.artificial";
     const artist = "Digitales Radio Manfred";
@@ -40,73 +39,84 @@ async function getNowPlaying() {
   }
 }
 
-
 app.post("/alexa", async (req, res) => {
   console.log("Alexa request received");
 
-  const requestType = req.body && req.body.request && req.body.request.type;
-  const intentName = req.body &&
-    req.body.request &&
-    req.body.request.intent &&
-    req.body.request.intent.name;
+  const requestType = req.body?.request?.type;
+  const intentName = req.body?.request?.intent?.name;
 
   console.log("Request type:", requestType);
   console.log("Intent:", intentName);
 
   console.log("FULL REQUEST BODY:", JSON.stringify(req.body, null, 2));
 
-  
-  
-if (
-  requestType === "LaunchRequest" ||
-  (requestType === "IntentRequest" && intentName === "PlayStreamIntent")
-) {
-  const nowPlaying = await getNowPlaying();
+  if (
+    requestType === "LaunchRequest" ||
+    (requestType === "IntentRequest" && intentName === "PlayStreamIntent")
+  ) {
+    const nowPlaying = await getNowPlaying();
 
-  const response = {
-    version: "1.0",
-    sessionAttributes: {},
-    response: {
-      shouldEndSession: true,
-      directives: [
-        {
-          type: "Alexa.Presentation.APL.RenderDocument",
-          token: "now-playing-view",
-          document: require("./apl-template.json"), // alternativ direkt im Code
-          datasources: {
-            audioPlayerTemplateData: {
-              type: "object",
-              properties: {
-                audioControlType: "none",
-                audioSources: [nowPlaying.streamUrl],
-                coverImageSource: nowPlaying.cover,
-                headerTitle: nowPlaying.artist,
-                logoUrl: nowPlaying.cover,
-                primaryText: nowPlaying.title,
-                secondaryText: nowPlaying.description,
-                sliderType: "determinate"
-              }
-            }
-          }
+    const supportsAPL = req.body?.context?.System?.device?.supportedInterfaces?.["Alexa.Presentation.APL"];
+
+    const response = {
+      version: "1.0",
+      sessionAttributes: {},
+      response: {
+        outputSpeech: {
+          type: "PlainText",
+          text: "Digitales Radio Manfred wird gestartet."
         },
-        {
-          type: "AudioPlayer.Play",
-          playBehavior: "REPLACE_ALL",
-          audioItem: {
-            stream: {
-              token: "mani-radio",
-              url: nowPlaying.streamUrl,
-              offsetInMilliseconds: 0
+        shouldEndSession: true,
+        directives: []
+      }
+    };
+
+    if (supportsAPL) {
+      response.response.directives.push({
+        type: "Alexa.Presentation.APL.RenderDocument",
+        token: "now-playing-view",
+        document: require("./apl-template.json"),
+        datasources: {
+          audioPlayerTemplateData: {
+            type: "object",
+            properties: {
+              audioControlType: "none",
+              audioSources: [nowPlaying.streamUrl],
+              coverImageSource: nowPlaying.cover,
+              headerTitle: nowPlaying.artist,
+              logoUrl: nowPlaying.cover,
+              primaryText: nowPlaying.title,
+              secondaryText: nowPlaying.description,
+              sliderType: "determinate"
             }
           }
         }
-      ]
+      });
     }
-  };
 
-  return res.status(200).json(response);
-}
+    response.response.directives.push({
+      type: "AudioPlayer.Play",
+      playBehavior: "REPLACE_ALL",
+      audioItem: {
+        stream: {
+          token: "mani-radio",
+          url: nowPlaying.streamUrl,
+          offsetInMilliseconds: 0
+        }
+      }
+    });
 
+    return res.status(200).json(response);
+  }
+
+  if (requestType === "SessionEndedRequest") {
+    console.log("Session ended");
+
+    return res.status(200).json({
+      version: "1.0",
+      response: {}
+    });
+  }
 
   res.status(200).json({
     version: "1.0",
@@ -127,7 +137,6 @@ app.get("/", (req, res) => {
 app.get("/alexa", (req, res) => {
   res.send("Alexa endpoint is reachable (GET).");
 });
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
