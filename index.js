@@ -1,8 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
-
+const path = require("path");
 const app = express();
+app.use('/.well-known/acme-challenge', express.static(path.join(__dirname, '.well-known/acme-challenge')));
 app.use(bodyParser.json());
 
 const STREAM_URL = "https://radio.mitreiter.de/listen/mani.artificial/radio.mp3";
